@@ -148,7 +148,6 @@
       "id": 6,
       "name": "Ancient Dragon",
       "type": "Paper",
-      "health": 300,
       "attack": 50,
       "weakness": "Scissors",
       "danger_level": 3,

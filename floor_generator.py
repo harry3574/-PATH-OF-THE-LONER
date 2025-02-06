@@ -1,5 +1,5 @@
-import random
 import json
+import random
 from pathlib import Path
 
 class FloorGenerator:
@@ -33,23 +33,25 @@ class FloorGenerator:
     def generate_floor(self):
         """
         Generate a floor with three rooms:
-        - Room A: 2–5 normal monsters.
-        - Room B: 2–3 elite monsters.
-        - Room C: 1 boss monster.
+        - Room A: 2–5 normal monsters (danger_level = 1).
+        - Room B: 2–3 elite monsters (danger_level = 2).
+        - Room C: 1 boss monster (danger_level = 3).
 
         :return: A dictionary representing the floor with room details.
         """
         # Select 2–5 normal monsters for Room A
         normal_monsters = self._filter_monsters_by_danger_level(1)
-        room_a = random.choices(normal_monsters, k=random.randint(1, 5))
+        room_a = random.choices(normal_monsters, k=random.randint(1, 2))
 
         # Select 2–3 elite monsters for Room B
         elite_monsters = self._filter_monsters_by_danger_level(2)
-        room_b = random.choices(elite_monsters, k=random.randint(2, 3))
+        room_b = random.choices(elite_monsters, k=random.randint(1, 2))
 
         # Select 1 boss monster for Room C
         boss_monsters = self._filter_monsters_by_danger_level(3)
-        room_c = random.choice(boss_monsters)
+        if not boss_monsters:
+            raise ValueError("No boss monsters found in the database! Ensure there are monsters with danger_level = 3.")
+        room_c = [random.choice(boss_monsters)]
 
         # Return the floor structure
         return {
@@ -72,9 +74,6 @@ if __name__ == "__main__":
     # Print the floor details
     print("Generated Floor:")
     for room, monsters in floor.items():
-        if room == "Room C":
-            print(f"{room}: {monsters['name']} (Danger Level: {monsters['danger_level']})")
-        else:
-            print(f"{room}:")
-            for monster in monsters:
-                print(f"  - {monster['name']} (Danger Level: {monster['danger_level']})")
+        print(f"{room}:")
+        for monster in monsters:
+            print(f"  - {monster['name']} (Danger Level: {monster['danger_level']})")

@@ -326,7 +326,9 @@ class MainGameLoop:
         # Check if the player is defeated
         if self.player_stats["health"] <= 0:
             self.combat_log.append("You have been defeated!")
-            pygame.quit()
+            self.turn_state = "game_over"
+            pygame.quit
+
 
         # Reset moves for the next turn
         self.enemy_move = None
@@ -356,16 +358,19 @@ class MainGameLoop:
 
     def next_room(self):
         """
-        Move to the next room on the floor.
+        Move to the next room on the floor. If all rooms are cleared, generate a new floor.
         """
-        if self.current_room == "Room A":
-            self.current_room = "Room B"
-        elif self.current_room == "Room B":
-            self.current_room = "Room C"
-        elif self.current_room == "Room C":
+        room_order = ["Room A", "Room B", "Room C"]
+        current_index = room_order.index(self.current_room)
+        
+        if current_index < len(room_order) - 1:
+            self.current_room = room_order[current_index + 1]
+        else:
             self.combat_log.append("You have cleared the floor!")
-            pygame.quit()
-
+            self.current_floor_number += 1
+            self.current_floor = self.floor_generator.generate_floor()
+            self.current_room = "Room A"
+        
         self.current_enemies = self.current_floor[self.current_room]
         self.current_enemy_index = 0
         self.current_enemy = self.current_enemies[self.current_enemy_index]
@@ -378,6 +383,9 @@ class MainGameLoop:
         self.enemy_move = None
         self.player_move = None
         self.turn_state = "enemy_turn"
+        self.combat_log.clear()
+
+
 
 # Run the game
 if __name__ == "__main__":
