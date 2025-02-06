@@ -327,7 +327,7 @@ class MainGameLoop:
         if self.player_stats["health"] <= 0:
             self.combat_log.append("You have been defeated!")
             self.turn_state = "game_over"
-            pygame.quit
+            pygame.quit()
 
 
         # Reset moves for the next turn
