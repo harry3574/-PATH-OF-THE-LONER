@@ -252,13 +252,13 @@ class MainGameLoop:
                 self.turn_state = "player_turn"
 
             # Draw UI
-            self.draw_floor_info()
             self.draw_enemy_stats()
             self.draw_player_stats()
             if self.turn_state == "player_turn":
                 self.draw_menu("Choose Your Move", self.player_stats["moves"], selected_index)
             self.draw_combat_log()
             self.draw_prompt()
+            self.draw_floor_info()
 
             # Draw rewards pop-up if applicable
             if self.show_rewards_popup:

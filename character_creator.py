@@ -2,6 +2,8 @@ import pygame
 import json
 from pathlib import Path
 
+from main_game_loop import MainGameLoop  # Make sure this import works with your structure
+
 # Initialize Pygame
 pygame.init()
 
@@ -38,9 +40,6 @@ class CharacterCreator:
     def _load_json(self, path):
         """
         Load a JSON file from the given path.
-
-        :param path: Path to the JSON file.
-        :return: Data from the JSON file.
         """
         with open(path, "r") as file:
             return json.load(file)
@@ -48,11 +47,6 @@ class CharacterCreator:
     def draw_text(self, text, x, y, color=WHITE):
         """
         Draw text on the screen.
-
-        :param text: The text to display.
-        :param x: X position of the text.
-        :param y: Y position of the text.
-        :param color: Color of the text.
         """
         text_surface = FONT.render(text, True, color)
         self.screen.blit(text_surface, (x, y))
@@ -60,10 +54,6 @@ class CharacterCreator:
     def draw_menu(self, title, items, selected_index):
         """
         Draw a menu with a title and a list of selectable items.
-
-        :param title: The title of the menu.
-        :param items: A list of items to display.
-        :param selected_index: The index of the currently selected item.
         """
         self.draw_text(title, 50, 50)
         for i, item in enumerate(items):
@@ -106,18 +96,17 @@ class CharacterCreator:
             elif self.current_step == "save":
                 self.draw_text("Character Created! Saving profile...", 50, 50)
                 self.save_character()
-                running = False
+                running = False  # Exit character creator after saving
 
             pygame.display.flip()
             self.clock.tick(30)
 
+        self.launch_game()  # Launch the game after character creation
         pygame.quit()
 
     def get_current_items(self):
         """
         Get the list of items for the current step.
-
-        :return: A list of items.
         """
         if self.current_step == "ascendancy":
             return self.ascendances
@@ -132,8 +121,6 @@ class CharacterCreator:
     def handle_selection(self, selected_index):
         """
         Handle the selection of an item.
-
-        :param selected_index: The index of the selected item.
         """
         items = self.get_current_items()
         if not items:
@@ -167,6 +154,14 @@ class CharacterCreator:
 
         with open("character_profile.json", "w") as file:
             json.dump(character, file, indent=4)
+
+    def launch_game(self):
+        """
+        Launch the main game loop after character creation.
+        """
+        print("Launching PvE mode...")
+        game = MainGameLoop("character_profile.json", "data/monsters.json")
+        game.run()
 
 # Run the character creator
 if __name__ == "__main__":

@@ -94,12 +94,14 @@ def launch_pve_mode():
     if not check_for_character_profile():
         print("No character profile found. Launching character creator...")
         creator = CharacterCreator()
-        creator.run()
+        creator.run()  # Run the character creator
+        return  # Exit the function to prevent launching the game
 
-    # Load the character profile and launch the main game loop
+    # If the character profile exists, launch the game
     print("Launching PvE mode...")
     game = MainGameLoop("character_profile.json", "data/monsters.json")
     game.run()
+
 
 def launch_pvp_mode():
     """
