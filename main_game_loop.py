@@ -326,7 +326,6 @@ class MainGameLoop:
         # Check if the player is defeated
         if self.player_stats["health"] <= 0:
             self.combat_log.append("You have been defeated!")
-            self.turn_state = "game_over"
             pygame.quit()
 
 
