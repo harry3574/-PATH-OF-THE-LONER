@@ -1,0 +1,31 @@
+{
+    "ascendancy": {
+        "id": 1,
+        "name": "Warrior",
+        "bonus": "Rock",
+        "description": "Masters of physical combat, excelling with heavy weapons and armor."
+    },
+    "weapon": {
+        "id": 1,
+        "name": "Steel Sword",
+        "type": "Rock",
+        "damage": 25,
+        "weight": 8
+    },
+    "armor": {
+        "id": 1,
+        "name": "Iron Plate",
+        "type": "Heavy",
+        "weight": 15,
+        "resistance": "Rock",
+        "weakness": "Scissors",
+        "armor_value": 20
+    },
+    "spell": {
+        "id": 1,
+        "name": "Fireball",
+        "type": "Paper",
+        "damage": 35,
+        "description": "A blazing ball of fire that engulfs enemies."
+    }
+}

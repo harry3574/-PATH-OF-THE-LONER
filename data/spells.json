@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "name": "Fireball",
+      "type": "Paper",
+      "damage": 35,
+      "description": "A blazing ball of fire that engulfs enemies."
+    },
+    {
+      "id": 2,
+      "name": "Stone Fist",
+      "type": "Rock",
+      "damage": 28,
+      "description": "A crushing blow of solid rock."
+    },
+    {
+      "id": 3,
+      "name": "Wind Slash",
+      "type": "Scissors",
+      "damage": 22,
+      "description": "A sharp gust of wind that cuts through foes."
+    },
+    {
+      "id": 4,
+      "name": "Ice Shard",
+      "type": "Paper",
+      "damage": 30,
+      "description": "A freezing shard of ice that pierces enemies."
+    }
+  ]

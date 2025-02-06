@@ -1,0 +1,30 @@
+[
+    {
+      "id": 1,
+      "name": "Steel Sword",
+      "type": "Rock",
+      "damage": 25,
+      "weight": 8
+    },
+    {
+      "id": 2,
+      "name": "Enchanted Bow",
+      "type": "Paper",
+      "damage": 20,
+      "weight": 5
+    },
+    {
+      "id": 3,
+      "name": "Dagger of Shadows",
+      "type": "Scissors",
+      "damage": 18,
+      "weight": 3
+    },
+    {
+      "id": 4,
+      "name": "Warhammer",
+      "type": "Rock",
+      "damage": 30,
+      "weight": 12
+    }
+  ]

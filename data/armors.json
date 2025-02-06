@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "name": "Iron Plate",
+      "type": "Heavy",
+      "weight": 15,
+      "resistance": "Rock",
+      "weakness": "Scissors",
+      "armor_value": 20
+    },
+    {
+      "id": 2,
+      "name": "Leather Vest",
+      "type": "Light",
+      "weight": 5,
+      "resistance": "Scissors",
+      "weakness": "Rock",
+      "armor_value": 10
+    },
+    {
+      "id": 3,
+      "name": "Mage Robe",
+      "type": "Cloth",
+      "weight": 3,
+      "resistance": "Paper",
+      "weakness": "Scissors",
+      "armor_value": 8
+    },
+    {
+      "id": 4,
+      "name": "Dragon Scale",
+      "type": "Medium",
+      "weight": 10,
+      "resistance": "Rock",
+      "weakness": "Paper",
+      "armor_value": 18
+    }
+  ]

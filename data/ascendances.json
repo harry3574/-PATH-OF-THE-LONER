@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Warrior",
+    "bonus": "Rock",
+    "description": "Masters of physical combat, excelling with heavy weapons and armor."
+  },
+  {
+    "id": 2,
+    "name": "Mage",
+    "bonus": "Paper",
+    "description": "Wielders of arcane power, specializing in devastating spells."
+  },
+  {
+    "id": 3,
+    "name": "Rogue",
+    "bonus": "Scissors",
+    "description": "Agile and stealthy, using speed and precision to outmaneuver foes."
+  },
+  {
+    "id": 4,
+    "name": "Paladin",
+    "bonus": "Rock",
+    "description": "Holy warriors who combine strength with protective magic."
+  }
+]
