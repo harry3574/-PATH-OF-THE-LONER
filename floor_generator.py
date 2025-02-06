@@ -45,7 +45,7 @@ class FloorGenerator:
 
         # Select 2–3 elite monsters for Room B
         elite_monsters = self._filter_monsters_by_danger_level(2)
-        room_b = random.choices(elite_monsters, k=random.randint(1, 3))
+        room_b = random.choices(elite_monsters, k=random.randint(2, 3))
 
         # Select 1 boss monster for Room C
         boss_monsters = self._filter_monsters_by_danger_level(3)

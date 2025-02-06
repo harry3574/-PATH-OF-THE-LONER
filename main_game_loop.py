@@ -53,8 +53,9 @@ class MainGameLoop:
         self.enemy_move = None
         self.player_move = None
         self.combat_log = []
-        self.turn_state = "enemy_turn"  # States: enemy_turn, player_turn, resolve_turn
+        self.turn_state = "enemy_turn"  # States: enemy_turn, player_turn, resolve_turn, game_over
         self.show_rewards_popup = False
+        self.show_game_over_popup = False
         self.rewards = []
 
     def _load_json(self, path):
@@ -214,6 +215,31 @@ class MainGameLoop:
         # Draw the prompt
         self.draw_text("Press ENTER to continue...", popup_x + 20, popup_y + 240, YELLOW, SMALL_FONT)
 
+    def draw_game_over_popup(self):
+        """
+        Draw a pop-up window for the game over screen.
+        """
+        # Darken the background
+        overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 128))
+        self.screen.blit(overlay, (0, 0))
+
+        # Draw the pop-up window
+        popup_width = 400
+        popup_height = 300
+        popup_x = (SCREEN_WIDTH - popup_width) // 2
+        popup_y = (SCREEN_HEIGHT - popup_height) // 2
+        pygame.draw.rect(self.screen, BLACK, (popup_x, popup_y, popup_width, popup_height))
+        pygame.draw.rect(self.screen, WHITE, (popup_x, popup_y, popup_width, popup_height), 2)
+
+        # Draw the title
+        self.draw_text("Game Over!", popup_x + 20, popup_y + 20, RED)
+        self.draw_text("You have been defeated!", popup_x + 20, popup_y + 60, WHITE, SMALL_FONT)
+
+        # Draw the options
+        self.draw_text("Press UP ARROW to restart", popup_x + 20, popup_y + 120, WHITE, SMALL_FONT)
+        self.draw_text("Press DOWN ARROW to quit", popup_x + 20, popup_y + 160, WHITE, SMALL_FONT)
+
     def run(self):
         """
         Run the main game loop.
@@ -244,6 +270,11 @@ class MainGameLoop:
                     elif self.turn_state == "resolve_turn" and event.key == pygame.K_RETURN:
                         self.resolve_combat()
                         selected_index = 0  # Reset selection for the next turn
+                    elif self.turn_state == "game_over":
+                        if event.key == pygame.K_UP:  # Restart the game
+                            self.reset_game()
+                        elif event.key == pygame.K_DOWN:  # Quit the game
+                            running = False
 
             # Enemy turn logic
             if self.turn_state == "enemy_turn":
@@ -263,6 +294,10 @@ class MainGameLoop:
             # Draw rewards pop-up if applicable
             if self.show_rewards_popup:
                 self.draw_rewards_popup()
+
+            # Draw game over pop-up if applicable
+            if self.turn_state == "game_over":
+                self.draw_game_over_popup()
 
             pygame.display.flip()
             self.clock.tick(30)
@@ -326,13 +361,13 @@ class MainGameLoop:
         # Check if the player is defeated
         if self.player_stats["health"] <= 0:
             self.combat_log.append("You have been defeated!")
-            pygame.quit()
-
+            self.turn_state = "game_over"
 
         # Reset moves for the next turn
         self.enemy_move = None
         self.player_move = None
-        self.turn_state = "enemy_turn"
+        if self.turn_state != "game_over":
+            self.turn_state = "enemy_turn"
 
     def generate_rewards(self):
         """
@@ -357,19 +392,18 @@ class MainGameLoop:
 
     def next_room(self):
         """
-        Move to the next room on the floor. If all rooms are cleared, generate a new floor.
+        Move to the next room on the floor.
         """
-        room_order = ["Room A", "Room B", "Room C"]
-        current_index = room_order.index(self.current_room)
-        
-        if current_index < len(room_order) - 1:
-            self.current_room = room_order[current_index + 1]
-        else:
+        if self.current_room == "Room A":
+            self.current_room = "Room B"
+        elif self.current_room == "Room B":
+            self.current_room = "Room C"
+        elif self.current_room == "Room C":
             self.combat_log.append("You have cleared the floor!")
             self.current_floor_number += 1
             self.current_floor = self.floor_generator.generate_floor()
             self.current_room = "Room A"
-        
+
         self.current_enemies = self.current_floor[self.current_room]
         self.current_enemy_index = 0
         self.current_enemy = self.current_enemies[self.current_enemy_index]
@@ -384,7 +418,27 @@ class MainGameLoop:
         self.turn_state = "enemy_turn"
         self.combat_log.clear()
 
+    def reset_game(self):
+        """
+        Reset the game to its initial state.
+        """
+        # Reset player stats
+        self.player_stats = self._get_player_stats()
 
+        # Reset floor and room
+        self.current_floor = self.floor_generator.generate_floor()
+        self.current_floor_number = 1
+        self.current_room = "Room A"
+        self.current_enemies = self.current_floor[self.current_room]
+        self.current_enemy_index = 0
+        self.current_enemy = self.current_enemies[self.current_enemy_index]
+
+        # Reset combat state
+        self.reset_combat_state()
+
+        # Reset game over state
+        self.turn_state = "enemy_turn"
+        self.show_game_over_popup = False
 
 # Run the game
 if __name__ == "__main__":
